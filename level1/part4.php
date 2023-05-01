@@ -1,10 +1,10 @@
 <?php
 
 // bad request
-// php tester.php 4 part4.php
+// php level1/tester.php 4 level1/part4.php
 
 //case 1
-// in the tester) 200 ОК
+//in the tester) 200 ОК
 // $method = "POST";
 // $uri = "/api/checkLoginAndPassword";
 // $headers = array("Content-Type" => "application/x-www-form-urlencoded");
@@ -74,10 +74,10 @@ function outputHttpResponse($statuscode, $statusmessage, $headers, $body)
 //тут весь процес в прикладі і тесті по різному
 function processHttpRequest($method, $uri, $headers, $body)
 {
-    $bool_content_type = content_type_valid($headers, $uri);
+    $boolUriAndContentType = boolUriAndContentType($headers, $uri);
 
     //if uri != uri && content-type != content-type
-    if (!$bool_content_type) {
+    if (!$boolUriAndContentType) {
         return  outputHttpResponse(400, "Bad Request", $headers, "bad request");
     }
 
@@ -107,9 +107,13 @@ function processHttpRequest($method, $uri, $headers, $body)
             for ($i=0; $i < count($arrayPasswords); $i++) {
                 $log_pass = explode(":", $arrayPasswords[$i]);
                 if ($log_pass[0] === $login && $log_pass[1] === $password) {
-                    $new_body = "<h1 style=\"$login:$password\">FOUND</h1>";
-                    //$new_body = "<h1 style=\"color:green\">FOUND</h1>";
-                    return outputHttpResponse(200, "OK", $headers, $new_body);
+                    //"<h1 style=\"color:green\">FOUND</h1>";
+                    return outputHttpResponse(
+                        200,
+                        "OK",
+                        $headers,
+                        "<h1 style=\"$login:$password\">FOUND</h1>"
+                    );
                 }
             }
             //401
@@ -120,13 +124,9 @@ function processHttpRequest($method, $uri, $headers, $body)
 }
 
 
-function content_type_valid($headers, $uri)
+function boolUriAndContentType($headers, $uri)
 {
-    if (isset($headers["Content-Type"]) && $headers["Content-Type"] === "application/x-www-form-urlencoded" && $uri === "/api/checkLoginAndPassword") {
-        return true;
-    } else {
-        return false;
-    }
+    return isset($headers["Content-Type"]) && $headers["Content-Type"] === "application/x-www-form-urlencoded" && $uri === "/api/checkLoginAndPassword";
 }
 
 

@@ -16,7 +16,11 @@
 //processHttpRequest("GET", "/sum=1,2,3", " ", " ");
 // res: 400
 
-// php tester.php 3 part3.php
+//case 4
+//processHttpRequest("GET", "bim/sum?nums=1,2,3", " ", " ");
+// res: 400
+
+// php level1/tester.php 3 level1/part3.php
 function readHttpLikeInput()
 {
     $f = fopen('php://stdin', 'r');
@@ -51,38 +55,33 @@ function outputHttpResponse($statuscode, $statusmessage, $headers, $body)
     echo($result);
 }
 
-//тут весь процес
-//зробила по тесту, в прикладі інакше
 function processHttpRequest($method, $uri, $headers, $body)
 {
-    if (strpos($uri, "/sum?nums=") !== false) {
+    if (strpos($uri, "/sum") === 0) {
         //1-st case
         if ($method === "GET" && strlen($uri) > 10 && is_numeric($uri[10])) {
-            return countSumAndOutputResponse($uri, $headers);
+            $numsString = substr($uri, 10);
+            $sum = getSum($numsString);
+            return outputHttpResponse(200, "OK", $headers, $sum);
         } elseif ($method !== "GET") {
             return  outputHttpResponse(400, "Bad Request", $headers, "bad request");
         }
-    } elseif (strpos($uri, "/sum") !== 0) {
-        return  outputHttpResponse(404, "Not Found", $headers, "not found");
     } else {
-        return  outputHttpResponse(400, "Bad Request", $headers, "bad request");
+        return  outputHttpResponse(404, "Not Found", $headers, "not found");
     }
 }
 
-function countSumAndOutputResponse($uri, $headers)
+function getSum($numsString)
 {
-    //substring after "="
-    $numsString = substr($uri, 10);
-
     //get elements
     $numsArray = explode(',', $numsString);
 
     //count the sum
     $sum = 0;
     for ($i=0; $i < count($numsArray); $i++) {
-        $sum += intval($numsArray[$i]);
+        $sum += (int)($numsArray[$i]);
     }
-    outputHttpResponse(200, "OK", $headers, $sum);
+    return $sum;
 }
 
 function parseTcpStringAsHttpRequest($string)

@@ -1,5 +1,6 @@
 <?php
 
+// php level1/tester.php 2 level1/part2.php
 // не обращайте на эту функцию внимания
 // она нужна для того чтобы правильно считать входные данные
 function readHttpLikeInput()
@@ -24,8 +25,6 @@ function readHttpLikeInput()
 
 $contents = readHttpLikeInput();
 
-
-// php tester.php 2 part2.php
 // 2D array заміість асоціативного?
 
 function parseTcpStringAsHttpRequest($string)
