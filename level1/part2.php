@@ -39,8 +39,9 @@ function parseTcpStringAsHttpRequest($string)
 
     for ($i = 1; $i < count($substrings) - 1; $i++) {
         $header = explode(": ", $substrings[$i]);
-        $headers[$i-1] = array($header[0], $header[1]);
+        $headers[] = array($header[0], $header[1]);
     }
+
 
     $body = $substrings[count($substrings) - 1];
     return array(

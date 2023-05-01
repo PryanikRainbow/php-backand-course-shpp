@@ -11,15 +11,15 @@ array(3) {
 }
 */
 if (count($argv) != 3) {
-	die("usage: php tester.php <tasknum> <path/to/task.php>\nexample: php tester.php 1 t1.php\n");
+    die("usage: php tester.php <tasknum> <path/to/task.php>\nexample: php tester.php 1 t1.php\n");
 }
 
 $inputs = array(
-	1 => <<<T1
+    1 => <<<T1
 hello
 T1
 ,
-	2 => <<<T2
+    2 => <<<T2
 POST /doc/test HTTP/1.1
 Host: shpp.me
 Accept: image/gif, image/jpeg, */*
@@ -30,7 +30,7 @@ Content-Length: 35
 bookId=12345&author=Tan+Ah+Teck
 T2
 ,
-	3 => <<<T3
+    3 => <<<T3
 GET /sum?nums=1,2,3,4 HTTP/1.1
 Host: shpp.me
 Accept: image/gif, image/jpeg, */*
@@ -39,7 +39,7 @@ Accept-Encoding: gzip, deflate
 User-Agent: Mozilla/4.0
 T3
 ,
-	4 => <<<T4
+    4 => <<<T4
 POST /api/checkLoginAndPassword HTTP/1.1
 Accept: */*
 Content-Type: application/x-www-form-urlencoded
@@ -48,7 +48,7 @@ Content-Length: 35
 login=student&password=12345
 T4
 ,
-	5 => <<<T5
+    5 => <<<T5
 GET / HTTP/1.1
 Host: student.shpp.me
 Accept: image/gif, image/jpeg, */*
@@ -61,11 +61,11 @@ T5
 // =============================================== ANSWERS
 
 $answers = array(
-	1 => <<<T1
+    1 => <<<T1
 3
 T1
 ,
-	2 => <<<T2
+    2 => <<<T2
 {
     "method": "POST",
     "uri": "\/doc\/test",
@@ -99,7 +99,7 @@ T1
 }
 T2
 ,
-	3 => <<<T3
+    3 => <<<T3
 HTTP/1.1 200 OK
 Server: Apache/2.2.14 (Win32)
 Connection: Closed
@@ -108,7 +108,7 @@ Content-Length: 2
 10
 T3
 ,
-	4 => <<<T4
+    4 => <<<T4
 HTTP/1.1 200 OK
 Server: Apache/2.2.14 (Win32)
 Content-Length: 34
@@ -117,7 +117,7 @@ Content-Type: text/html; charset=utf-8
 <h1 style="color:green">FOUND</h1>
 T4
 ,
-	5 => <<<T5
+    5 => <<<T5
 GET / HTTP/1.1
 Host: student.shpp.me
 Accept: image/gif, image/jpeg, */*
@@ -154,14 +154,13 @@ if (is_resource($process)) {
     $c2 = preg_replace("/Date: [^\n]+\n/", "", $content);
     $c2 = preg_replace("/\r/", "", $c2);
     if ($c2 == $answers[$argv[1]]) {
-    	echo "response is correct :)";
-    }
-    else {
-	    echo "-----CORRECT-RESPONSE-BEGIN--------------------\n";
-	    echo "(".$answers[$argv[1]].")\n";
-	    echo "-----CORRECT-RESPONSE-END----------------------\n\n";
-	    echo strlen($c2)." vs ".strlen($answers[$argv[1]])."\n";
+        echo "response is correct :)";
+    } else {
+        echo "-----CORRECT-RESPONSE-BEGIN--------------------\n";
+        echo "(".$answers[$argv[1]].")\n";
+        echo "-----CORRECT-RESPONSE-END----------------------\n\n";
+        echo strlen($c2)." vs ".strlen($answers[$argv[1]])."\n";
 
-    	echo "response is incorrect! SEE ABOVE\n";
+        echo "response is incorrect! SEE ABOVE\n";
     }
 }
