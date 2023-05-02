@@ -1,5 +1,15 @@
 <?php
 
+
+define('HTTP_STATUS_OK', 200);
+define('HTTP_STATUS_MESSAGE_OK', 'OK');
+
+define('HTTP_STATUS_CODE_BAD_REQUEST', 400);
+define('HTTP_STATUS_MESSAGE_BAD_REQUEST', 'Bad Request');
+
+define('HTTP_STATUS_CODE_NOT_FOUND', 404);
+define('HTTP_STATUS_MESSAGE_NOT_FOUND', 'Not Found');
+
 //case 1
 //processHttpRequest("GET", "/sum?nums=1,2,3", " ", " ");
 //res: 200
@@ -21,6 +31,7 @@
 // res: 400
 
 // php level1/tester.php 3 level1/part3.php
+
 function readHttpLikeInput()
 {
     $f = fopen('php://stdin', 'r');
@@ -45,7 +56,11 @@ $contents = readHttpLikeInput();
 
 function outputHttpResponse($statuscode, $statusmessage, $headers, $body)
 {
+<<<<<<< HEAD
     $result = "HTTP/1.1 $statuscode $statusmessage".PHP_EOL
+=======
+    $result = "HTTP/1.1 $statuscode $statusmessage" . PHP_EOL
+>>>>>>> 4df89f3 (post second review)
             //   . "Date:" . date("D, d M Y H:i:s T") . "\r\n"
               . "Server: Apache/2.2.14 (Win32)" . PHP_EOL
               . "Connection: Closed" . PHP_EOL
@@ -60,15 +75,28 @@ function processHttpRequest($method, $uri, $headers, $body)
     if (strpos($uri, "/sum") === 0) {
         //1-st case
         if ($method === "GET" && strlen($uri) > 10 && is_numeric($uri[10])) {
+
             $numsString = substr($uri, 10);
             $sum = getSum($numsString);
-            return outputHttpResponse(200, "OK", $headers, $sum);
+
+            return outputHttpResponse(HTTP_STATUS_OK, HTTP_STATUS_MESSAGE_OK, $headers, $sum);
         } elseif ($method !== "GET") {
-            return  outputHttpResponse(400, "Bad Request", $headers, "bad request");
+
+            return  outputHttpResponse(
+                HTTP_STATUS_CODE_BAD_REQUEST,
+                HTTP_STATUS_MESSAGE_BAD_REQUEST,
+                $headers,
+                strtolower(HTTP_STATUS_MESSAGE_BAD_REQUEST)
+            );
         }
-    } else {
-        return  outputHttpResponse(404, "Not Found", $headers, "not found");
     }
+    return  outputHttpResponse(
+        HTTP_STATUS_CODE_NOT_FOUND,
+        HTTP_STATUS_MESSAGE_NOT_FOUND,
+        $headers,
+        strtolower(HTTP_STATUS_MESSAGE_NOT_FOUND)
+    );
+
 }
 
 function getSum($numsString)
@@ -108,4 +136,4 @@ function parseTcpStringAsHttpRequest($string)
 }
 
 $http = parseTcpStringAsHttpRequest($contents);
-processHttpRequest($http["method"], $http["uri"], $http["headers"], $http["body"]);
+//processHttpRequest($http["method"], $http["uri"], $http["headers"], $http["body"]);

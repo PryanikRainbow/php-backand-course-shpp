@@ -4,7 +4,7 @@
 // php level1/tester.php 4 level1/part4.php
 
 //case 1
-//in the tester) 200 ОК
+// in the tester) 200 ОК
 // $method = "POST";
 // $uri = "/api/checkLoginAndPassword";
 // $headers = array("Content-Type" => "application/x-www-form-urlencoded");
@@ -64,9 +64,15 @@ function outputHttpResponse($statuscode, $statusmessage, $headers, $body)
     $result = "HTTP/1.1 $statuscode $statusmessage".PHP_EOL
             //   . "Date:" . date("D, d M Y H:i:s T") . "\r\n"
               . "Server: Apache/2.2.14 (Win32)" . PHP_EOL
+<<<<<<< HEAD
               . "Connection: Closed" . PHP_EOL
               . "Content-Type: text/html; charset=utf-8" . PHP_EOL
               . "Content-Length: " . strlen($body) . PHP_EOL
+=======
+              . "Content-Length: " . strlen($body) . PHP_EOL
+              . "Connection: Closed" . PHP_EOL
+              . "Content-Type: text/html; charset=utf-8" . PHP_EOL
+>>>>>>> 4df89f3 (post second review)
               . $body;
     echo($result);
 }
@@ -74,10 +80,11 @@ function outputHttpResponse($statuscode, $statusmessage, $headers, $body)
 //тут весь процес в прикладі і тесті по різному
 function processHttpRequest($method, $uri, $headers, $body)
 {
-    $boolUriAndContentType = boolUriAndContentType($headers, $uri);
+    $isValidUri = isValidUri($uri);
+    $isValidContentType = isValidContentType($headers);
 
     //if uri != uri && content-type != content-type
-    if (!$boolUriAndContentType) {
+    if (!$isValidUri || !$isValidContentType) {
         return  outputHttpResponse(400, "Bad Request", $headers, "bad request");
     }
 
@@ -90,7 +97,7 @@ function processHttpRequest($method, $uri, $headers, $body)
             // $password = substr($body, strpos($body, "&") + 1);
             $password = substr($body, strpos($body, "&password=") + 10);
 
-            //if passwords.txt  is missing
+            //if level1/passwords.txt  is missing
             if (!file_exists("passwords.txt")) {
                 return outputHttpResponse(
                     500,
@@ -101,6 +108,7 @@ function processHttpRequest($method, $uri, $headers, $body)
             }
 
             //data structure - string
+            //"level1/passwords.txt"
             $passwords = file_get_contents("passwords.txt");
             $arrayPasswords = explode("\n", $passwords);
 
@@ -112,7 +120,7 @@ function processHttpRequest($method, $uri, $headers, $body)
                         200,
                         "OK",
                         $headers,
-                        "<h1 style=\"$login:$password\">FOUND</h1>"
+                        "<h1 style=\"color:green\">FOUND</h1>"
                     );
                 }
             }
@@ -123,10 +131,15 @@ function processHttpRequest($method, $uri, $headers, $body)
     return  outputHttpResponse(400, "Bad Request", $headers, "bad request");
 }
 
-
-function boolUriAndContentType($headers, $uri)
+function isValidUri($uri)
 {
-    return isset($headers["Content-Type"]) && $headers["Content-Type"] === "application/x-www-form-urlencoded" && $uri === "/api/checkLoginAndPassword";
+    return $uri === "/api/checkLoginAndPassword";
+}
+
+
+function isValidContentType($headers)
+{
+    return isset($headers["Content-Type"]) && $headers["Content-Type"] === "application/x-www-form-urlencoded";
 }
 
 
@@ -154,4 +167,4 @@ function parseTcpStringAsHttpRequest($string)
 }
 
 $http = parseTcpStringAsHttpRequest($contents);
-processHttpRequest($http["method"], $http["uri"], $http["headers"], $http["body"]);
+//processHttpRequest($http["method"], $http["uri"], $http["headers"], $http["body"]);
