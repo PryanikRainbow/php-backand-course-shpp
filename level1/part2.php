@@ -3,7 +3,7 @@
 // php level1/tester.php 2 level1/part2.php
 // не обращайте на эту функцию внимания
 // она нужна для того чтобы правильно считать входные данные
-//hh
+
 function readHttpLikeInput()
 {
     $f = fopen('php://stdin', 'r');
@@ -27,6 +27,7 @@ function readHttpLikeInput()
 $contents = readHttpLikeInput();
 
 // 2D array заміість асоціативного?
+
 function parseTcpStringAsHttpRequest($string)
 {
     $substrings = explode("\n", $string);
@@ -37,12 +38,7 @@ function parseTcpStringAsHttpRequest($string)
     $headers = array();
 
     for ($i = 1; $i < count($substrings) - 1; $i++) {
-<<<<<<< HEAD
-        $header = explode(": ", $substrings[$i]);
-        $headers[] = array($header[0], $header[1]);
-=======
         $headers[] = explode(": ", $substrings[$i]);
->>>>>>> 4df89f3 (post second review)
     }
 
 
