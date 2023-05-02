@@ -1,6 +1,5 @@
 <?php
 
-
 define('HTTP_STATUS_OK', 200);
 define('HTTP_STATUS_MESSAGE_OK', 'OK');
 
@@ -56,11 +55,7 @@ $contents = readHttpLikeInput();
 
 function outputHttpResponse($statuscode, $statusmessage, $headers, $body)
 {
-<<<<<<< HEAD
-    $result = "HTTP/1.1 $statuscode $statusmessage".PHP_EOL
-=======
     $result = "HTTP/1.1 $statuscode $statusmessage" . PHP_EOL
->>>>>>> 4df89f3 (post second review)
             //   . "Date:" . date("D, d M Y H:i:s T") . "\r\n"
               . "Server: Apache/2.2.14 (Win32)" . PHP_EOL
               . "Connection: Closed" . PHP_EOL
