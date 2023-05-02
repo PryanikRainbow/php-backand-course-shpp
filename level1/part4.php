@@ -64,15 +64,9 @@ function outputHttpResponse($statuscode, $statusmessage, $headers, $body)
     $result = "HTTP/1.1 $statuscode $statusmessage".PHP_EOL
             //   . "Date:" . date("D, d M Y H:i:s T") . "\r\n"
               . "Server: Apache/2.2.14 (Win32)" . PHP_EOL
-<<<<<<< HEAD
-              . "Connection: Closed" . PHP_EOL
-              . "Content-Type: text/html; charset=utf-8" . PHP_EOL
-              . "Content-Length: " . strlen($body) . PHP_EOL
-=======
               . "Content-Length: " . strlen($body) . PHP_EOL
               . "Connection: Closed" . PHP_EOL
               . "Content-Type: text/html; charset=utf-8" . PHP_EOL
->>>>>>> 4df89f3 (post second review)
               . $body;
     echo($result);
 }
